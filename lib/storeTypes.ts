@@ -37,3 +37,19 @@ export async function getStoreTypes(): Promise<StoreType[]> {
     return FALLBACK_STORE_TYPES
   }
 }
+
+// The word used for one thing in each kind of store.
+export function itemNoun(slug: string | null | undefined): string {
+  switch (slug) {
+    case 'music':
+      return 'track'
+    case 'books':
+      return 'book'
+    case 'digital':
+      return 'digital product'
+    case 'services':
+      return 'service'
+    default:
+      return 'product'
+  }
+}

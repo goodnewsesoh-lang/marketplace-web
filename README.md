@@ -25,3 +25,8 @@ digital products, fashion, services and more. Built with Next.js and Supabase.
 - Brand name lives in one place: `lib/config.ts`.
 - The logo in `components/Logo.tsx` is a placeholder. Replace it with the real logo file.
 - Never put the Supabase secret key in this project.
+
+## Phase 2: accounts and registration
+
+Run `supabase/001_store_types.sql` then `supabase/002_stores.sql` in the Supabase SQL Editor.
+Pages: `/register`, `/login`, `/forgot-password`, `/reset-password`, `/dashboard`.

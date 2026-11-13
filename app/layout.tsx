@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import type { ReactNode } from 'react'
 
+import { AuthProvider } from '@/components/AuthProvider'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import { SITE_NAME, SITE_TAGLINE } from '@/lib/config'
@@ -25,9 +26,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <AuthProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   )
