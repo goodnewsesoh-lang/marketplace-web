@@ -488,3 +488,28 @@ textarea.input { resize: vertical; }
 .dash-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
 .dash-stat { background: var(--lavender); border-radius: var(--radius-sm); padding: 16px; display: flex; flex-direction: column; }
 .dash-stat strong { font-size: 24px; color: var(--purple-700); }
+
+/* ---------- Phase 3: products ---------- */
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.check { display: flex; gap: 10px; align-items: flex-start; margin: 10px 0; font-size: 15px; }
+.check input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--purple-600); }
+.actions-right { display: inline-flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.photo-tile { position: relative; aspect-ratio: 1; border-radius: var(--radius-sm); overflow: hidden; background: var(--lavender); }
+.photo-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-badge { position: absolute; left: 6px; top: 6px; background: var(--purple-600); color: #fff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+.photo-actions { position: absolute; right: 6px; top: 6px; display: flex; gap: 4px; }
+.photo-actions button { width: 28px; height: 28px; border-radius: 50%; border: 0; background: rgba(0, 0, 0, 0.6); color: #fff; cursor: pointer; font-size: 13px; }
+.photo-add { aspect-ratio: 1; border: 2px dashed var(--purple-500); border-radius: var(--radius-sm); background: var(--lavender); color: var(--purple-700); font: inherit; font-weight: 600; cursor: pointer; }
+.list-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin-bottom: 16px; }
+.item-list { display: grid; gap: 12px; margin-top: 16px; }
+.item-card { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; background: var(--white); }
+.item-top { display: flex; gap: 12px; }
+.item-thumb { width: 84px; height: 84px; border-radius: 10px; object-fit: cover; background: var(--lavender); flex: none; }
+.item-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.status { font-size: 13px; font-weight: 700; color: var(--muted); }
+.status-published { color: #059669; }
+.status-unavailable, .status-pending { color: var(--accent); }
+.status-rejected, .status-removed { color: #dc2626; }
+.danger { color: #dc2626; }
+@media (max-width: 480px) { .row-2 { grid-template-columns: 1fr; } }

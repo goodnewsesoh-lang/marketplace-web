@@ -35,3 +35,28 @@ export function AreaField({ label, error, hint, ...props }: AreaProps) {
     </div>
   )
 }
+
+type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
+  label: string
+  error?: string | null
+  choices: { value: string; label: string }[]
+  placeholder?: string
+}
+
+export function SelectField({ label, error, choices, placeholder, ...props }: SelectProps) {
+  const id = useId()
+  return (
+    <div className="field">
+      <label htmlFor={id}>{label}</label>
+      <select id={id} className={error ? 'input input-error' : 'input'} {...props}>
+        {placeholder ? <option value="">{placeholder}</option> : null}
+        {choices.map((c) => (
+          <option key={c.value} value={c.value}>
+            {c.label}
+          </option>
+        ))}
+      </select>
+      {error ? <p className="error-text">{error}</p> : null}
+    </div>
+  )
+}

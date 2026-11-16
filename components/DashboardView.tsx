@@ -1,11 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { useAuth } from '@/components/AuthProvider'
 import { StoreIcon } from '@/components/StoreIcon'
+import { itemNoun } from '@/lib/storeTypes'
+import { getBrowserSupabase } from '@/lib/supabaseBrowser'
 
 export function DashboardView() {
   const router = useRouter()
@@ -14,6 +16,26 @@ export function DashboardView() {
   useEffect(() => {
     if (!loading && !user) router.replace('/login')
   }, [loading, user, router])
+
+  const [stats, setStats] = useState({ products: 0, views: 0, saves: 0 })
+  const sellerId = seller?.id
+
+  useEffect(() => {
+    const supabase = getBrowserSupabase()
+    if (!supabase || !sellerId) return
+    void (async () => {
+      const { data } = await supabase
+        .from('products')
+        .select('views_count, saves_count')
+        .eq('seller_id', sellerId)
+      const rows = (data ?? []) as { views_count: number | null; saves_count: number | null }[]
+      setStats({
+        products: rows.length,
+        views: rows.reduce((n, r) => n + (r.views_count ?? 0), 0),
+        saves: rows.reduce((n, r) => n + (r.saves_count ?? 0), 0),
+      })
+    })()
+  }, [sellerId])
 
   if (loading || !user) {
     return <div className="form-card"><p className="muted">Loading...</p></div>
@@ -32,7 +54,7 @@ export function DashboardView() {
   }
 
   const type = seller.store_types
-  const title = type ? `${type.name} store dashboard` : 'Store dashboard'
+  const title = type ? `${type.name} dashboard` : 'Store dashboard'
 
   return (
     <div className="dash">
@@ -47,16 +69,19 @@ export function DashboardView() {
         </div>
       </div>
       <div className="dash-stats">
-        <div className="dash-stat"><strong>0</strong><span className="muted small">Products</span></div>
+        <div className="dash-stat"><strong>{stats.products}</strong><span className="muted small">Items listed</span></div>
         <div className="dash-stat"><strong>{seller.followers_count}</strong><span className="muted small">Followers</span></div>
-        <div className="dash-stat"><strong>0</strong><span className="muted small">Store views</span></div>
+        <div className="dash-stat"><strong>{stats.views}</strong><span className="muted small">Item views</span></div>
       </div>
       <div className="form-card">
-        <h2>Your store is live</h2>
-        <p className="muted" style={{ marginTop: 8 }}>
-          Adding products is coming next. You will be able to list items with photos, prices and
-          discounts right here.
+        <h2>Your items</h2>
+        <p className="muted" style={{ margin: '8px 0 16px' }}>
+          Add a {itemNoun(type?.slug)} with photos, a price in your currency and an optional discount. It goes live straight away.
         </p>
+        <div className="progress-actions" style={{ justifyContent: 'flex-start' }}>
+          <Link href="/dashboard/products/new" className="btn btn-primary">+ Add {itemNoun(type?.slug)}</Link>
+          <Link href="/dashboard/products" className="btn btn-ghost">My {itemNoun(type?.slug)}s</Link>
+        </div>
       </div>
     </div>
   )
