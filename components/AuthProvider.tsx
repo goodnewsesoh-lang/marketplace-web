@@ -11,6 +11,7 @@ import {
 } from 'react'
 import type { User } from '@supabase/supabase-js'
 
+import { logAuth } from '@/lib/authDebug'
 import { getBrowserSupabase } from '@/lib/supabaseBrowser'
 
 export type Seller = {
@@ -66,6 +67,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })
 
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      logAuth(
+        `${_event} session=${session ? 'yes' : 'NO'}` +
+          (session?.expires_at ? ` expiresIn=${session.expires_at - Math.floor(Date.now() / 1000)}s` : ''),
+      )
       const current = session?.user ?? null
       setUser(current)
       if (!current) {

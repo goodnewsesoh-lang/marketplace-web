@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { useAuth } from '@/components/AuthProvider'
+import { logAuth } from '@/lib/authDebug'
 import { StoreIcon } from '@/components/StoreIcon'
 
 export function DashboardView() {
@@ -12,7 +13,10 @@ export function DashboardView() {
   const { user, seller, loading } = useAuth()
 
   useEffect(() => {
-    if (!loading && !user) router.replace('/login')
+    if (!loading && !user) {
+      logAuth('dashboard: no user, redirecting to login')
+      router.replace('/login')
+    }
   }, [loading, user, router])
 
   if (loading || !user) {

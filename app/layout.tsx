@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import type { ReactNode } from 'react'
 
+import { AuthDebug } from '@/components/AuthDebug'
 import { AuthProvider } from '@/components/AuthProvider'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <AuthProvider>
           <Header />
           <main>{children}</main>
+          <AuthDebug />
           <Footer />
         </AuthProvider>
       </body>
